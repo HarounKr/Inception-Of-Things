@@ -1,0 +1,29 @@
+yum install -y vim
+
+yum install -y container-selinux selinux-policy-base
+export INSTALL_K3S_EXEC="--flannel-iface=eth1"
+export K3S_KUBECONFIG_MODE="644"
+systemctl daemon-reload
+systemctl restart k3s
+curl -sfL https://get.k3s.io | sh -
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+export PATH=$PATH:/usr/local/bin
+
+mkdir ~/.kube/
+sudo cat /etc/rancher/k3s/k3s.yaml > ~/.kube/config
+
+
+ config.vm.define "hkrifaSW" do |hkrifaSW|
+      hkrifaSW.vm.box = "centos/7"
+      hkrifaSW.vm.box_url = "centos/7"
+      hkrifaSW.vm.hostname = "hkrifaSW"
+      hkrifaSW.vm.network "private_network", ip: "192.168.56.111"
+      hkrifaSW.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--name", "hkrifaSW"]
+        vb.customize ["modifyvm", :id, "--cpus", "1"]
+        vb.customize ["modifyvm", :id, "--memory", "512"]
+        vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+      end
+    end
+
