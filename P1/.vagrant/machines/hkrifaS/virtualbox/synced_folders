@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant_shared":{"type":"rsync","rsync__auto":true,"guestpath":"/vagrant_shared","hostpath":"/home/hkrifa/Bureau/Inception-Of-Things/P1/shared","disabled":false,"__vagrantfile":true,"auto":true,"owner":"vagrant","group":"vagrant"}}}

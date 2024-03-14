@@ -1,4 +1,6 @@
 $controller_script = <<-'SCRIPT'
+        sudo ufw disable
+        sudo apt-get install nfs-common
         echo 'Installing k3s'
         export INSTALL_K3S_EXEC="--bind-address=192.168.56.110 --flannel-iface=eth1"
         curl -sfL https://get.k3s.io | sh -
@@ -6,11 +8,8 @@ $controller_script = <<-'SCRIPT'
           echo "Waiting for k3s to become active..."
           sleep 5
         done
-        echo 'Installing kubectl'
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
         echo 'sudo cp /var/lib/rancher/k3s/server/token /vagrant_shared/token'
-        sudo cp /var/lib/rancher/k3s/server/token /vagrant_shared/token
+        sudo cp /var/lib/rancher/k3s/server/token /vagrant_shared
         echo 'mkdir /home/vagrant/.kube/'
         mkdir /home/vagrant/.kube/
         echo 'sudo cat /etc/rancher/k3s/k3s.yaml > /home/vagrant/.kube/config'
@@ -18,6 +17,8 @@ $controller_script = <<-'SCRIPT'
         SCRIPT
 
 $worker_script = <<-'SCRIPT'
+        sudo ufw disable
+        sudo apt-get install nfs-common
         export K3S_TOKEN_FILE="/vagrant_shared/token"
         export K3S_URL=https://192.168.56.110:6443
         export INSTALL_K3S_EXEC="--flannel-iface=eth1"
@@ -27,31 +28,31 @@ $worker_script = <<-'SCRIPT'
 Vagrant.configure("2") do |config|
   
     config.vm.define "hkrifaS" do |hkrifaS|
-      hkrifaS.vm.box = "centos/7"
-      hkrifaS.vm.box_url = "centos/7"
+      hkrifaS.vm.box = "generic/ubuntu1804"
       hkrifaS.vm.hostname = "hkrifaS"
       hkrifaS.vm.network "private_network", ip: "192.168.56.110"
+      hkrifaS.vm.synced_folder "./shared", "/vagrant_shared", type: "nfs", nfs_version: 4, nfs_udp: false
       hkrifaS.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--name", "hkrifaS"]
         vb.customize ["modifyvm", :id, "--cpus", "1"]
-        vb.customize ["modifyvm", :id, "--memory", "512"]
+        vb.customize ["modifyvm", :id, "--memory", "1024"]
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         vb.customize ["modifyvm", :id,"--natdnsproxy1", "on"]
       end
-      config.vm.provision "shell", inline: $controller_script
+      hkrifaS.vm.provision "shell", inline: $controller_script
     end
 
     config.vm.define "hkrifaSW" do |hkrifaSW|
-      hkrifaSW.vm.box = "centos/7"
-      hkrifaSW.vm.box_url = "centos/7"
+      hkrifaSW.vm.box = "generic/ubuntu1804"
       hkrifaSW.vm.hostname = "hkrifaSW"
       hkrifaSW.vm.network "private_network", ip: "192.168.56.111"
+      hkrifaSW.vm.synced_folder "./shared", "/vagrant_shared", type: "nfs", nfs_version: 4, nfs_udp: false
       hkrifaSW.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--name", "hkrifaSW"]
         vb.customize ["modifyvm", :id, "--cpus", "1"]
-        vb.customize ["modifyvm", :id, "--memory", "512"]
+        vb.customize ["modifyvm", :id, "--memory", "1024"]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       end
-      config.vm.provision "shell", inline: $worker_script
+      hkrifaSW.vm.provision "shell", inline: $worker_script
     end
   end
