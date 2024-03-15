@@ -8,12 +8,8 @@ $controller_script = <<-'SCRIPT'
           echo "Waiting for k3s to become active..."
           sleep 5
         done
-        echo 'sudo cp /var/lib/rancher/k3s/server/token /vagrant_shared/token'
-        sudo cp /var/lib/rancher/k3s/server/token /vagrant_shared
-        echo 'mkdir /home/vagrant/.kube/'
-        mkdir /home/vagrant/.kube/
-        echo 'sudo cat /etc/rancher/k3s/k3s.yaml > /home/vagrant/.kube/config'
-        sudo cat /etc/rancher/k3s/k3s.yaml > /home/vagrant/.kube/config
+        echo 'Adjusting permissions for k3s.yaml'
+        sudo chmod 644 /etc/rancher/k3s/k3s.yaml
         SCRIPT
 
 $worker_script = <<-'SCRIPT'

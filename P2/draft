@@ -1,0 +1,5 @@
+kubectl get pods -n kube-system | grep traefik
+kubectl get nodes -o wide
+kubectl get all -n kube-system
+kubectl get all
+curl -H "Host:app2.com" 192.168.56.110

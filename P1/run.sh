@@ -1,0 +1,3 @@
+mkdir shared
+
+vagrant up
