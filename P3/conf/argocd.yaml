@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/HarounKr/wil-app.git
+    repoURL: https://github.com/HarounKr/hkrifa-app.git
     targetRevision: HEAD
     path: manifests
   destination:
