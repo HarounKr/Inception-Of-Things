@@ -12,6 +12,6 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 argocd admin initial-password -n argocd > argopass
 kubectl create namespace dev
 argocd proj create development -d https://kubernetes.default.svc, dev -s '*'
-kubectl apply -f ./conf/argocd.yaml
+kubectl apply -f ../confs/argocd.yaml
 sleep 2
 kubectl port-forward service/wil-service 8888:80 -n dev

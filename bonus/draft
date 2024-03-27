@@ -1,0 +1,24 @@
+kubectl create namespace gitlab
+kubectl get namespaces
+
+
+helm repo add gitlab https://charts.gitlab.io/
+helm repo update
+
+helm upgrade --install gitlab gitlab/gitlab --timeout 600s \
+  --namespace gitlab \
+  --set global.hosts.domain=gitlab.local \
+  --set global.hosts.externalIP='172.19.80.215' \
+  -f gitlab-values.yaml
+
+k3d cluster create gitlab-cluster
+
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' k3d-gitlab-cluster-serverlb
+
+k3d cluster list
+
+k3d cluster create my-gitlab-cluster --api-port 6550 -p "8080:80@loadbalancer" --agents 2
+
+kubectl port-forward svc/gitlab 8080:80
+kubectl get services -n <namespace
+

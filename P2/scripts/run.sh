@@ -18,6 +18,3 @@ for entry in "${entries[@]}"; do
         echo "Line exist: $entry"
     fi
 done
-
-
-vagrant up
