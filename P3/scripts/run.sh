@@ -2,6 +2,7 @@ sudo k3d cluster create P3cluster
 
 mkdir ~/.kube
 sudo k3d kubeconfig get P3cluster  > ~/.kube/config
+sudo chmod 600 /home/hkrifa/.kube/config
 echo "export KUBECONFIG=~/.kube/config" > ~/.profile
 source ~/.profile
 
