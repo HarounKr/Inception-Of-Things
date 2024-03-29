@@ -8,7 +8,7 @@ helm repo update
 helm upgrade --install gitlab gitlab/gitlab --timeout 600s \
   --namespace gitlab \
   --set global.hosts.domain=gitlab.local \
-  --set global.hosts.externalIP='172.19.80.215' \
+  --set global.hosts.externalIP='t172.19.80.215' \
   -f gitlab-values.yaml
 
 k3d cluster create gitlab-cluster
@@ -19,7 +19,7 @@ k3d cluster list
 
 k3d cluster create my-gitlab-cluster --api-port 6550 -p "8080:80@loadbalancer" --agents 2
 
-kubectl port-forward svc/gitlab 8080:80
+kubectl port-forward --adress=192.168.93.135 svc/gitlab-webservice-default 9191:8181 -n gitlab
 kubectl get services -n <namespace
 
 
@@ -31,3 +31,6 @@ kubectl describe pod <pod name> -n gitlab ==> description du pod
 docker exec -it k3d-mycluster-serverlb /bin/sh
 
 nslookup registry.gitlab.com
+
+kubectl delete namespace gitlab
+
