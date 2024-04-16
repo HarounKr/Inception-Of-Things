@@ -26,7 +26,7 @@ kubectl get services -n <namespace
 kubectl config current-context / kubectl config get-contexts ===> avoir le cluster actuel / avoir les clusters
 kubectl config use-context k3d-<nom_du_cluster> ==> changer de cluster
 
-kubectl describe pod <pod name> -n gitlab ==> description du pod
+kubectl describe pod gitlab-webservice-default-65798486c9-rsszw <pod name> -n gitlab ==> description du pod
 
 docker exec -it k3d-mycluster-serverlb /bin/sh
 

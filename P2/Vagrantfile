@@ -17,7 +17,7 @@ $controller_script = <<-'SCRIPT'
 Vagrant.configure("2") do |config|
   
   config.vm.define "hkrifaS" do |hkrifaS|
-    hkrifaS.vm.box = "generic/ubuntu1804"
+    hkrifaS.vm.box = "generic/ubuntu2004"
     hkrifaS.vm.hostname = "hkrifaS"
     hkrifaS.vm.network "private_network", ip: "192.168.56.110"
     hkrifaS.vm.synced_folder "./confs", "/vagrant_shared", type: "nfs", nfs_version: 4, nfs_udp: false
