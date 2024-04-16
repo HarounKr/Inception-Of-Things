@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: http://gitlab-webservice-default.gitlab.svc:8181/root/hkrifa-project.git
+    repoURL: http://gitlab-webservice-default.gitlab.svc:8181/root/app.git
     targetRevision: HEAD
     path: manifests
   destination:
