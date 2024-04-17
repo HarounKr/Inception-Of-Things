@@ -18,11 +18,18 @@ helm upgrade --install gitlab gitlab/gitlab --timeout 600s \
 
 entry="127.0.0.1 gitlab.k3d.local"
 
+echo "Waiting for GitLab to be ready..."
+kubectl wait --for=condition=available --timeout=600s deployment/gitlab-webservice-default -n gitlab
+echo "GitLab is now ready."
+
 if ! grep -q "$entry" /etc/hosts; then
-    # Si l'entrée n'existe pas, l'ajoute au fichier
     echo "$entry" | sudo tee -a /etc/hosts > /dev/null
     echo "Added: $entry"
 else
-    # Si l'entrée existe déjà, affiche un message
     echo "Line exist: $entry"
 fi
+
+kubectl get secret gitlab-gitlab-initial-root-password --namespace gitlab -ojsonpath='{.data.password}' | base64 --decode > password
+
+# --adress=<hostIP> ; port 9191 ==> 8181 (gitlab-webservice port)
+kubectl port-forward svc/gitlab-webservice-default 9191:8181 -n gitlab
