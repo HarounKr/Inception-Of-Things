@@ -1,6 +1,6 @@
 # Inception-Of-Things
 
-## Aperçu
+## Description
 
 **Inception-Of-Things** est un projet visant à approfondir les connaissances sur **Kubernetes**, en utilisant **K3s**, **K3d** et **Vagrant**.  
 Le projet est divisé en **trois parties principales**, chacune centrée sur des aspects spécifiques de la mise en place et de la gestion d’un environnement Kubernetes.
