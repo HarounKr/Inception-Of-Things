@@ -14,7 +14,7 @@ Le projet est divisé en **trois parties principales**, chacune centrée sur des
 - **Kubernetes** installé
 - L’outil en ligne de commande **kubectl**
 - **Vagrant** installé avec un provider (VirtualBox, libvirt…)
-- Des connaissances de base en Docker, Kubernetes
+- Des connaissances de base en Docker, Kubernetes, Vagrant
 
 ---
 
@@ -33,8 +33,6 @@ Le projet est divisé en **trois parties principales**, chacune centrée sur des
 git clone https://github.com/HarounKr/Inception-Of-Things.git
 cd Inception-Of-Things
 ```
-
-# Projet Kubernetes – Déploiement local avec K3s, K3d, Vagrant et Argo CD
 
 ## Partie 1 – K3s + Vagrant
 
